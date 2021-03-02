@@ -1,7 +1,8 @@
-<div class="" id="v_form"> 
+<div class="" id="v_form">
+            
     <div>
-        <input type="text" class="form-control d-none" name="user_id" id="user_id" value="{{Auth::user()->id}}" readonly>
-        <input type="text" class="form-control d-none" placeholder="Enter your username" id="username" name="username" value="{{Auth::user()->name}}" readonly>
+        <input type="text" class="form-control d-none" name="video_id" id="video_id" value="{{Auth::user()->id}}" readonly>
+        <input type="text" class="form-control d-none" placeholder="Enter your username" id="username" name="video_username" value="{{Auth::user()->name}}" readonly>
     </div>
     <div>
         <label for="video_name">Video name</label>
@@ -9,17 +10,17 @@
     </div>
     <div>
         <label for="video_link">Video link</label>
-        <input type="text" class="form-control form-control-sm"id="video_link" name="video_link" placeholder="https://www.youtube.com/embed/X2hO8FEUOsc">
-        
+        <input type="text" class="form-control form-control-sm"id="video_link" name="video_link" placeholder="Example:'https://www.youtube.com/embed/X2hO8FEUOsc'">
+        <small>Replace in your link /watch?v= <code> for </code>/embed/ </small> 
         
     
     </div>
     <div class="mt-2">
         <input type="submit" class="btn btn-success btn-sm" value="{{$modo}}"></input>
-        
+        <a href="{{url('/video')}}" class="btn btn-info btn-sm text-light">Back</a>
     </div>
     
-<script>
+<!--<script>
     $(document).ready(function(){
         $('#v_up').hide();
         $('#v_form').hide();
@@ -35,6 +36,6 @@
         $('#v_up').hide('slow');
     });
 
-</script>
+</script> -->
 
 </div>

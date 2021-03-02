@@ -20,12 +20,20 @@ class VideoController extends Controller
             $data=Auth::user()->id;
             $dataProfile['profile']=Profile::
                 where('user_id','=',$data)
-                ->paginate(0);
+                ->paginate(1);
         }
+        if ($request){
+            $data=Auth::user()->id;
+            $dataVideo['video']=Video::
+                where('video_id','=',$data)
+                ->paginate(3);
+        }
+        
+
             
         //$dataProfile['profile']=Profile::paginate();
         //echo response()->json($dataProfile);
-        return view('video.index', $dataProfile);
+        return view('video.index', $dataProfile, $dataVideo);
  
     }
 
@@ -34,9 +42,28 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('video.create');
+        if ($request){
+            $data=Auth::user()->id;
+            $dataProfile['profile']=Profile::
+                where('user_id','=',$data)
+                ->paginate(1);
+        }
+        if ($request){
+            $data=Auth::user()->id;
+            $dataVideo['video']=Video::
+                where('video_id','=',$data)
+                ->paginate(1);
+        }
+        
+
+            
+        //$dataProfile['profile']=Profile::paginate();
+        //echo response()->json($dataProfile);
+        return view('video.create', $dataProfile, $dataVideo);
+
+        
     }
 
     /**
@@ -47,7 +74,21 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputs=[
+            'video_link'=>'required|string',
+            'video_name'=>'required|string|max:40', 
+        ];
+        $msg_video=[
+            'required'=>'The :attribute is required',
+            'video_name'=>'The name of video is required'
+        ];
+        $this->validate($request, $inputs, $msg_video);
+        $dataVideo = request()->except('_token');
+
+        Video::insert($dataVideo);
+        return redirect ('/video')->with('msg_video', 'Video add successfully!');
+
+
     }
 
     /**

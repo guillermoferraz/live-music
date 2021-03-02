@@ -17,6 +17,7 @@ class CreateVideosTable extends Migration
             $table->id();
             $table->string('video_id');
             $table->string('video_link');
+            $table->string('video_username');
             $table->string('video_name');
             $table->timestamps();
         });
