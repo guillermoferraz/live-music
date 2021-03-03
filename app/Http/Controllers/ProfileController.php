@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use App\Models\User;
+use App\Models\Video;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -25,10 +26,11 @@ class ProfileController extends Controller
                 where('user_id','=',$data)
                 ->paginate(0);
         }
+        $allData['allData']=Video::paginate(0);
             
         //$dataProfile['profile']=Profile::paginate();
         //echo response()->json($dataProfile);
-        return view('profile.index', $dataProfile);
+        return view('profile.index', $dataProfile, $allData);
     }
 
     /**
