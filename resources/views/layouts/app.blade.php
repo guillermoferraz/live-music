@@ -26,7 +26,7 @@
 
 <body class="bg-secondary">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-lg">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-lg" style="position: sticky;top: 0; z-index: 2;">
             <div class="container" id="1">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Live Music

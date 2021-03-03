@@ -6,7 +6,7 @@
 @endif
 @foreach ($profile as $data)
 
-<div class="container col-3 bg-dark float-left text-center p-2 rounded" height="100%">
+<div class="container col-3 bg-dark float-left text-center p-2 rounded" height="100%" style="position: sticky; top: 0px;">
     <a href="{{ url('/profile/'.$data->id.'/edit') }} "class="fas fa-cog float-right text-light " title="Edit profile"></a>
     <div class=" mx-auto mt-3">
         @if(isset($data->image))

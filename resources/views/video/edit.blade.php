@@ -1,4 +1,6 @@
-video edit
+@extends('layouts.app')
+@section('content')
+
 <div class="contanier row mx-auto col-7 mt-5 bg-dark">
     <div class="card col-md-5 m-3  bg-secondary text-light">
         <div class="card-header">
@@ -6,7 +8,7 @@ video edit
                 Edit your video
             </div>
         </div>
-        <form class="form-group" action="" method="post" enctype="multipart/form-data">
+        <form class="form-group" action="{{ url('/video/'.$video->id)}}" method="post" enctype="multipart/form-data">
              @csrf
             {{ method_field('PATCH') }}
             @include('video.form', ['modo'=>'Edit'])
@@ -18,4 +20,4 @@ video edit
     
     </div>
 </div>
-
+@endsection

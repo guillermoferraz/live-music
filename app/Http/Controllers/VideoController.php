@@ -7,6 +7,8 @@ use App\Models\Profile;
 use App\Models\Video;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+
 class VideoController extends Controller
 {
     /**
@@ -20,7 +22,7 @@ class VideoController extends Controller
             $data=Auth::user()->id;
             $dataProfile['profile']=Profile::
                 where('user_id','=',$data)
-                ->paginate(1);
+                ->paginate(0);
         }
         if ($request){
             $data=Auth::user()->id;
@@ -73,14 +75,17 @@ class VideoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $exp = '/watch?v=/';
+        $new ='/embed/';    
         $inputs=[
-            'video_link'=>'required|string',
-            'video_name'=>'required|string|max:40', 
+            'video_link'=>'required|string|regex: (embed)',
+            'video_name'=>'required|string|max:80', 
         ];
         $msg_video=[
             'required'=>'The :attribute is required',
-            'video_name'=>'The name of video is required'
+            'video_name'=>'The name of video is required',
+            'video_link'=>'Replace te word watch?v for embed'
         ];
         $this->validate($request, $inputs, $msg_video);
         $dataVideo = request()->except('_token');
@@ -108,9 +113,20 @@ class VideoController extends Controller
      * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function edit(Video $video)
+    public function edit(Request $request, $id)
     {
-        //
+         if ($request){
+            $data=Auth::user()->id;
+            $profile['profile']=Profile::
+                where('user_id','=',$data)
+                ->paginate(1);
+        }
+       
+
+
+        $video=Video::findOrFail($id);
+        return view('video.edit', compact('video', 'profile'));
+
     }
 
     /**
@@ -120,9 +136,23 @@ class VideoController extends Controller
      * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Video $video)
+    public function update(Request $request, $id)
     {
-        //
+        $inputs=[
+            'video_link'=>'required|string|regex: (embed)',
+            'video_name'=>'required|string|max:80',
+        ];
+        $mensaje=['required'=>'The :attribute is required',];
+
+        $this->validate($request, $inputs, $mensaje);
+
+        $dataVideo = request()->except(['_token', '_method']);
+
+        
+        Video::where('id', '=',$id)->update($dataVideo);
+        $dataVideo=Video::findOrFail($id);
+        return redirect ('/video')->with('mensaje', 'Video uodated!');
+
     }
 
     /**
@@ -131,8 +161,13 @@ class VideoController extends Controller
      * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Video $video)
+    public function destroy($id)
     {
-        //
+        $video=Video::findOrFail($id);
+        $video::destroy($id);
+
+        echo response()->json($video);
+        return redirect('/video')->with('msg_video', 'Video deleted!');
+        
     }
 }

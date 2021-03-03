@@ -41,9 +41,20 @@
                 @if($video->id >=0)
             <table class="table table-dark">
                 <thead class="thead-dark">
+                    
                     <tr>
-                        <th>Video name</th>
-                        <th></th>
+                        <th><code>Name</code></th>
+                        <th class="text-center"><code>Video</code> </th>
+
+                        <th>
+                            <form action="{{url ('/video/'.$video->id)}}" method="post">
+                                @csrf
+                                {{method_field('DELETE')}}
+                            <input class="fas fa-trash-alt text-light float-right m-1" type="submit" onclick="return confirm('Delete this video?')" style=" cursor: pointer; text-decoration: none" id="v_down" alt="" title="Delete"></input>
+                            </form>                    
+
+                            <a href="{{url('/video/'.$video->id.'/edit')}}" class="fas fa-edit text-light float-right m-1" style=" cursor: pointer; text-decoration: none" id="v_up" alt=""  title="Edit"></a>
+                        </th>
                     </tr>
                     
                 </thead>
@@ -56,6 +67,8 @@
                         <td>
                             <iframe class="float-right" src="{{$video->video_link}}" width="260" height="155" frameborder="0" allowfullscreen></iframe> 
                         </td>
+                        <td></td>
+                        
                     </tr>
                 </tbody>
                 
@@ -67,6 +80,7 @@
              
             
     </div>
+    
 </div>
 @include('profile.menu')
 
